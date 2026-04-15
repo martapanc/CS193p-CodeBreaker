@@ -11,7 +11,7 @@ struct CodeBreaker {
     var masterCode: Code = Code(kind: .master, )
     var guess: Code = Code(kind: .guess)
     var attempts: [Code] = []
-    let pegChoices: [Peg]
+    let pegChoices: [Peg] // Could be a Set<Peg>
     
     init(pegChoices: [Peg] = [.red, .blue, .green, .yellow]) {
         self.pegChoices = pegChoices
@@ -25,6 +25,12 @@ struct CodeBreaker {
         
         attempts.append(attempt)
         guess.reset()
+    }
+    
+    mutating func setGuessPeg(_ peg: Peg, at index: Int) {
+        guard guess.pegs.indices.contains(index) else { return } 
+        
+        guess.pegs[index] = peg
     }
     
     mutating func changeGuessPeg(at index: Int) {
