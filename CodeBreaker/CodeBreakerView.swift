@@ -19,13 +19,20 @@ struct CodeBreakerView: View {
             view(for: game.masterCode)
             
             ScrollView {
-                view(for: game.guess)
+                if !game.isOver {
+                    view(for: game.guess)
+                }
                 ForEach(game.attempts.indices.reversed(), id: \.self) { index in
                     view(for: game.attempts[index])
                 }
             }
-            pegChooser
-        }.padding()
+             
+            PegChooser(choices: game.pegChoices) { peg in
+                game.setGuessPeg(peg, at: selection)
+                selection = (selection + 1) % game.masterCode.pegs.count
+            }
+        }
+        .padding()
     }
     
     var pegChooser: some View {
@@ -45,6 +52,7 @@ struct CodeBreakerView: View {
         Button("Guess") {
             withAnimation {
                 game.attemptGuess()
+                selection = 0
             }
         }
         .font(.system(size: GuessButton.maximumFontSize))

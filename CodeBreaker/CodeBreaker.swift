@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CodeBreaker {
-    var masterCode: Code = Code(kind: .master, )
+    var masterCode: Code = Code(kind: .master(isHidden: true))
     var guess: Code = Code(kind: .guess)
     var attempts: [Code] = []
     let pegChoices: [Peg] // Could be a Set<Peg>
@@ -19,12 +19,20 @@ struct CodeBreaker {
         print(masterCode)
     }
     
+    var isOver: Bool {
+        attempts.last?.pegs == masterCode.pegs // if last is nil, everything becomes nil
+    }
+    
     mutating func attemptGuess() {
         var attempt = guess
         attempt.kind = .attempt(guess.match(against: masterCode))
         
         attempts.append(attempt)
         guess.reset()
+        
+        if isOver {
+            masterCode.kind = .master(isHidden: false)
+        }
     }
     
     mutating func setGuessPeg(_ peg: Peg, at index: Int) {
