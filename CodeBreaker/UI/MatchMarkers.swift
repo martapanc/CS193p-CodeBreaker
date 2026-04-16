@@ -1,0 +1,47 @@
+//
+//  MatchMarkers.swift
+//  CodeBreaker
+//
+//  Created by Marta Pancaldi on 9/4/26.
+//
+
+import SwiftUI
+
+struct MatchMarkers: View {
+    // MARK: Data In
+    let matches: [Match]
+    
+    // MARK: - Body
+    var body: some View {
+        HStack {
+            VStack {
+                matchMarker(peg: 0)
+                matchMarker(peg: 1)
+            }
+            VStack {
+                matchMarker(peg: 2)
+                matchMarker(peg: 3)
+            }
+        }
+    }
+    
+    func matchMarker(peg: Int) -> some View {
+        let exactCount: Int = matches.count(where: { match in match == .exact })
+        let foundCount: Int = matches.count(where: { match in match != .nomatch })
+        
+        return Circle()
+            .fill(exactCount > peg ? Color.primary : Color.clear)
+            .strokeBorder(foundCount > peg ? Color.primary : Color.clear, lineWidth: 2)
+            .aspectRatio(1, contentMode: .fit)
+    }
+}
+
+enum Match {
+    case nomatch
+    case exact
+    case partial
+}
+
+#Preview {
+    MatchMarkers(matches: [.exact, .partial, .nomatch, .nomatch])
+}
