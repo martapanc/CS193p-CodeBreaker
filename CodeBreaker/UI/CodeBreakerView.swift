@@ -25,7 +25,7 @@ struct CodeBreakerView: View {
             
             ScrollView {
                 if !game.isOver || restarting {
-                    CodeView(code: game.guess, selection: $selection) {
+                    CodeView(code: game.guess, selection: $selection.animation(Animation.selection)) {
                         Button("Guess", action: guess).flexibleSystemFont(minimum: 10)
                     }
                     .animation(nil, value: game.attempts.count)
@@ -52,8 +52,10 @@ struct CodeBreakerView: View {
     }
     
     func changePegAtSelection(to peg: Peg) {
-        game.setGuessPeg(peg, at: selection)
-        selection = (selection + 1) % game.masterCode.pegs.count
+        withAnimation(.selection) {
+            game.setGuessPeg(peg, at: selection)
+            selection = (selection + 1) % game.masterCode.pegs.count
+        }
     }
     
     func restart() {
