@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CodeBreakerView: View {
     // MARK: Data Shared with me
-    @Binding var game: CodeBreaker
+    let game: CodeBreaker
     
     @State private var selection: Int = 0
     @State private var restarting = false
@@ -19,11 +19,7 @@ struct CodeBreakerView: View {
     
     var body: some View {
         VStack {
-            CodeView(code: game.masterCode) {
-                ElapsedTime(startTime: game.startTime, endTime: game.endTime).flexibleSystemFont()
-                    .monospaced()
-                    .lineLimit(1)
-            }
+            CodeView(code: game.masterCode)
             
             ScrollView {
                 if !game.isOver {
@@ -51,7 +47,15 @@ struct CodeBreakerView: View {
             }
         }
         .toolbar {
-            Button("Restart", systemImage: "arrow.circlepath", action: restart)
+            ToolbarItem(placement: .primaryAction) {
+                Button("Restart", systemImage: "arrow.circlepath", action: restart)
+            }
+            
+            ToolbarItem(placement: .automatic) {
+                ElapsedTime(startTime: game.startTime, endTime: game.endTime)
+                    .monospaced()
+                    .lineLimit(1)
+            }
         }
         .padding()
     }
@@ -102,8 +106,8 @@ struct CodeBreakerView: View {
 }
 
 #Preview {
-    @Previewable @State var game = CodeBreaker(name: "Preview", pegChoices: [.blue, .red, .orange])
+    @Previewable @State var game = CodeBreaker(name: "Preview", pegChoices: [.blue, .red, .orange, .yellow])
     NavigationStack {
-        CodeBreakerView(game: $game)
+        CodeBreakerView(game: game)
     }
 }
