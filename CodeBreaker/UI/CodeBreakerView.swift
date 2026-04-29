@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct CodeBreakerView: View {
-    // MARK: Data Owned by Me
-    @State private var game = CodeBreaker(pegChoices: [.brown, .yellow, .orange, .black])
+    // MARK: Data Shared with me
+    @Binding var game: CodeBreaker
     
     @State private var selection: Int = 0
     @State private var restarting = false
@@ -19,8 +19,6 @@ struct CodeBreakerView: View {
     
     var body: some View {
         VStack {
-            Button("Restart", systemImage: "arrow.circlepath", action: restart)
-            
             CodeView(code: game.masterCode) {
                 ElapsedTime(startTime: game.startTime, endTime: game.endTime).flexibleSystemFont()
                     .monospaced()
@@ -35,11 +33,11 @@ struct CodeBreakerView: View {
                     .animation(nil, value: game.attempts.count)
                     .opacity(restarting ? 0 : 1)
                 }
-                ForEach(game.attempts.indices.reversed(), id: \.self) { index in
-                    CodeView(code: game.attempts[index]) {
-                        let showMarkers = !hideMostRecentMarkers || index != game.attempts.count - 1
+                ForEach(game.attempts, id: \.pegs) { attempt in
+                    CodeView(code: attempt) {
+                        let showMarkers = !hideMostRecentMarkers || attempt.pegs != game.attempts.first?.pegs
                         if showMarkers {
-                            MatchMarkers(matches: game.attempts[index].matches)
+                            MatchMarkers(matches: attempt.matches)
                         }
                     }.transition(
                         AnyTransition.attempt(game.isOver)
@@ -51,6 +49,9 @@ struct CodeBreakerView: View {
                 PegChooser(choices: game.pegChoices, onChoose: changePegAtSelection)
                     .transition(AnyTransition.pegChooser)
             }
+        }
+        .toolbar {
+            Button("Restart", systemImage: "arrow.circlepath", action: restart)
         }
         .padding()
     }
@@ -101,5 +102,8 @@ struct CodeBreakerView: View {
 }
 
 #Preview {
-    CodeBreakerView()
+    @Previewable @State var game = CodeBreaker(name: "Preview", pegChoices: [.blue, .red, .orange])
+    NavigationStack {
+        CodeBreakerView(game: $game)
+    }
 }

@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CodeBreaker {
+    var name: String
     var masterCode: Code = Code(kind: .master(isHidden: true))
     var guess: Code = Code(kind: .guess)
     var attempts: [Code] = []
@@ -15,13 +16,14 @@ struct CodeBreaker {
     var startTime: Date = Date.now
     var endTime: Date?
     
-    init(pegChoices: [Peg] = [.red, .blue, .green, .yellow]) {
+    init(name: String = "Code Breaker", pegChoices: [Peg] = [.red, .blue, .green, .yellow]) {
+        self.name = name
         self.pegChoices = pegChoices
         masterCode.randomize(from: pegChoices)
     }
     
     var isOver: Bool {
-        attempts.last?.pegs == masterCode.pegs // if last is nil, everything becomes nil
+        attempts.first?.pegs == masterCode.pegs // if last is nil, everything becomes nil
     }
     
     mutating func restart() {
@@ -34,10 +36,11 @@ struct CodeBreaker {
     }
     
     mutating func attemptGuess() {
+        guard !attempts.contains(where: { $0.pegs == guess.pegs }) else { return }
         var attempt = guess
         attempt.kind = .attempt(guess.match(against: masterCode))
         
-        attempts.append(attempt)
+        attempts.insert(attempt, at: 0)
         guess.reset()
         
         if isOver {
