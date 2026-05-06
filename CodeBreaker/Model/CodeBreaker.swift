@@ -13,7 +13,7 @@ import SwiftUI
     var masterCode: Code = Code(kind: .master(isHidden: true))
     var guess: Code = Code(kind: .guess)
     var attempts: [Code] = []
-    let pegChoices: [Peg] // Could be a Set<Peg>
+    var pegChoices: [Peg] // Could be a Set<Peg>
     var startTime: Date = Date.now
     var endTime: Date?
     
