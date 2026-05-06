@@ -44,6 +44,7 @@ struct CodeBreakerView: View {
             if !game.isOver {
                 PegChooser(choices: game.pegChoices, onChoose: changePegAtSelection)
                     .transition(AnyTransition.pegChooser)
+                    .frame(maxHeight: 88)
             }
         }
         .toolbar {
