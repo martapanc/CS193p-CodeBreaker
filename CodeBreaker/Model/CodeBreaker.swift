@@ -14,13 +14,27 @@ import SwiftUI
     var guess: Code = Code(kind: .guess)
     var attempts: [Code] = []
     var pegChoices: [Peg] // Could be a Set<Peg>
-    var startTime: Date = Date.now
+    var startTime: Date?
     var endTime: Date?
+    var elapsedTime: TimeInterval = 0
     
     init(name: String = "Code Breaker", pegChoices: [Peg] = [.red, .blue, .green, .yellow]) {
         self.name = name
         self.pegChoices = pegChoices
         masterCode.randomize(from: pegChoices)
+    }
+    
+    func startTimer() {
+        if startTime == nil, !isOver {
+            startTime = .now
+        }
+    }
+    
+    func pauseTimer() {
+        if let startTime {
+            elapsedTime += Date.now.timeIntervalSince(startTime)
+        }
+        startTime = nil
     }
     
     var isOver: Bool {
@@ -34,6 +48,7 @@ import SwiftUI
         attempts.removeAll()
         startTime = .now
         endTime = nil
+        elapsedTime = 0
     }
     
     func attemptGuess() {
@@ -47,6 +62,7 @@ import SwiftUI
         if isOver {
             masterCode.kind = .master(isHidden: false)
             endTime = .now
+            pauseTimer()
         }
     }
     
