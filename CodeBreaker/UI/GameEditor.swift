@@ -8,36 +8,48 @@
 import SwiftUI
 
 struct GameEditor: View {
+    // MARK: Data (Function) in
+    @Environment(\.dismiss) var dismiss
+    
+    // MARK: Data Shared with Me
     @Bindable var game: CodeBreaker
     
+    // MARK: Action Function
+    let onChoose: () -> Void
+    
     var body: some View {
-        Form {
-            Section("Name") {
-                TextField("Name", text: $game.name)
+        NavigationStack {
+            Form {
+                Section("Name") {
+                    TextField("Name", text: $game.name)
+                }
+                Section("Pegs") {
+                    PegChoicesChooser(pegChoices: $game.pegChoices)
+                }
             }
-            Section("Pegs") {
-                List {
-                    ForEach(game.pegChoices.indices, id: \.self) { index in
-                        ColorPicker(
-                            selection: $game.pegChoices[index],
-                            supportsOpacity: false
-                        ){
-                            Text("Peg choice \(index + 1)")
+                .toolbar {
+                    ToolbarItem(placement: .cancellationAction) {
+                        Button("Cancel") {
+                            dismiss()
+                        }
+                    }
+                    ToolbarItem(placement: .confirmationAction) {
+                        Button("Done") {
+                            onChoose()
+                            dismiss()
                         }
                     }
                 }
-            }
         }
+        
+        
     }
 }
 
 #Preview {
     @Previewable var game = CodeBreaker(name: "Preview", pegChoices: [.orange, .purple, .pink])
-    GameEditor(game: game)
-        .onChange(of: game.name) {
+    GameEditor(game: game) {
             print("game name changed to \(game.name)")
-        }
-        .onChange(of: game.pegChoices) {
             print("game pegs changed to \(game.pegChoices)")
-        }
+    }
 }
