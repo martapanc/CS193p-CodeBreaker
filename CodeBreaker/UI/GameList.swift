@@ -8,11 +8,74 @@
 import SwiftUI
 
 struct GameList: View {
+    // MARK: Data Shared with Me
+    @Binding var selection: CodeBreaker?
+
+    // MARK: Data Owned by Me
+    @State private var games: [CodeBreaker] = []
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        List(selection: $selection) {
+            ForEach(games) { game in
+                NavigationLink(value: game) {
+                    GameSummary(game: game)
+                }
+                .contextMenu {
+                    deleteButton(for: game)
+                }
+            }
+            .onDelete { offsets in
+                games.remove(atOffsets: offsets)
+            }
+            .onMove { offsets, destination in
+                games.move(fromOffsets: offsets, toOffset: destination)
+            }
+        }
+        .onChange(of: games) {
+            if let selection, !games.contains(selection) {
+                self.selection = nil
+            }
+        }
+        .navigationDestination(for: CodeBreaker.self) { game in
+            CodeBreakerView(game: game)
+                .navigationTitle(game.name)
+                .navigationBarTitleDisplayMode(.inline)
+        }
+        .listStyle(.plain)
+        .toolbar {
+            Button("Add Game", systemImage: "plus") {
+                withAnimation {
+                    let newGame = CodeBreaker(name: "Untitled", pegChoices: [.red, .blue, .green])
+                    games.append(newGame)
+                }
+            }
+            EditButton()
+        }
+        .onAppear { addSampleGames() }
+    }
+
+    func deleteButton(for game: CodeBreaker) -> some View {
+        Button("Delete", systemImage: "minus.circle", role: .destructive) {
+            withAnimation {
+                games.removeAll { $0 == game }
+            }
+        }
+    }
+    
+    func addSampleGames() {
+        if games.isEmpty {
+            games.append(CodeBreaker(name: "Mastermind", pegChoices: [.red, .blue, .green, .yellow, .black]))
+            games.append(CodeBreaker(name: "Earth Tones", pegChoices: [.yellow, .orange, .brown, .black,]))
+            games.append(CodeBreaker(name: "Undersea", pegChoices: [.indigo, .blue, .cyan]))
+            selection = games.first
+        }
     }
 }
 
 #Preview {
-    GameList()
+    @Previewable @State var selection: CodeBreaker?
+    NavigationStack {
+            GameList(selection: $selection)
+    }
+    
 }
