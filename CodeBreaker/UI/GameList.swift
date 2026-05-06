@@ -25,6 +25,7 @@ struct GameList: View {
                     GameSummary(game: game)
                 }
                 .contextMenu {
+                    editButton(for: game) // editing a game
                     deleteButton(for: game)
                 }
             }
@@ -48,7 +49,7 @@ struct GameList: View {
         .listStyle(.plain)
         .toolbar {
             addButton
-            EditButton()
+            EditButton() // Editing list of games
         }
         .onAppear { addSampleGames() }
     }
@@ -66,11 +67,22 @@ struct GameList: View {
         }
     }
     
+    func editButton(for game: CodeBreaker) -> some View {
+        Button("Edit", systemImage: "pencil") {
+            gameToEdit = game
+        }
+    }
+    
     @ViewBuilder
     var gameEditor: some View {
         if let gameToEdit {
-            GameEditor(game: gameToEdit) {
-                games.insert(gameToEdit, at: 0)
+            let copyOfGameToEdit = CodeBreaker(name: gameToEdit.name, pegChoices: gameToEdit.pegChoices)
+            GameEditor(game: copyOfGameToEdit) {
+                if let index = games.firstIndex(of: gameToEdit) {
+                    games[index] = copyOfGameToEdit
+                } else {
+                    games.insert(gameToEdit, at: 0)
+                }
             }
         }
     }
