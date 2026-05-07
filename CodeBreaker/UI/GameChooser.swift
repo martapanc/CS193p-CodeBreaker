@@ -7,9 +7,7 @@
 
 import SwiftUI
 
-struct GameChooser: View {
-    
-    
+struct GameChooser: View {    
     @State private var selection: CodeBreaker? = nil
     
     var body: some View {

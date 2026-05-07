@@ -37,4 +37,28 @@ extension Color {
     static func gray(_ brightness: CGFloat) -> Color { // Core Graphics module
         return Color(hue: 148/360, saturation: 0, brightness: brightness)
     }
+
+    var hex: String {
+        let resolved = resolve(in: EnvironmentValues())
+        return String(
+            format: "#%02X%02X%02X",
+            Int(round(Double(resolved.red) * 255)),
+            Int(round(Double(resolved.green) * 255)),
+            Int(round(Double(resolved.blue) * 255))
+        )
+    }
+
+    init(hex stringValue: String) {
+        var hex = stringValue
+        if hex.hasPrefix("#") { hex.removeFirst() }
+        guard hex.count == 6, let value = UInt64(hex, radix: 16) else {
+            self = .clear
+            return
+        }
+        self.init(
+            red: Double((value >> 16) & 0xFF) / 255,
+            green: Double((value >> 8) & 0xFF) / 255,
+            blue: Double(value & 0xFF) / 255
+        )
+    }
 }

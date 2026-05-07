@@ -141,6 +141,17 @@ struct ElapsedTimeTracker: ViewModifier {
     }
 }
 
+extension CodeBreaker {
+    convenience init(name: String = "Code Breaker", pegChoices: [Color]) {
+        self.init(name: name, pegChoices: pegChoices.map(\.hex))
+    }
+    
+    var pegColorChoices: [Color] {
+        get { pegChoices.map{ Color( hex: $0 )}}
+        set { pegChoices = newValue.map(\.hex)}
+    }
+}
+
 #Preview {
     @Previewable @State var game = CodeBreaker(name: "Preview", pegChoices: [.blue, .red, .orange, .yellow])
     NavigationStack {

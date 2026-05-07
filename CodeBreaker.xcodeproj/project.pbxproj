@@ -6,7 +6,12 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		99B562722FACDE3000559C9F /* Kind.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B562712FACDE3000559C9F /* Kind.swift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
+		99B562712FACDE3000559C9F /* Kind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Kind.swift; path = CodeBreaker/Model/Kind.swift; sourceTree = "<group>"; };
 		99DDFB9D2F87AB2D00E7981D /* CodeBreaker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CodeBreaker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -32,6 +37,7 @@
 		99DDFB942F87AB2D00E7981D = {
 			isa = PBXGroup;
 			children = (
+				99B562712FACDE3000559C9F /* Kind.swift */,
 				99DDFB9F2F87AB2D00E7981D /* CodeBreaker */,
 				99DDFB9E2F87AB2D00E7981D /* Products */,
 			);
@@ -119,6 +125,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				99B562722FACDE3000559C9F /* Kind.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

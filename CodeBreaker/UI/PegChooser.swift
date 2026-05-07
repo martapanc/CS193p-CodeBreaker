@@ -28,6 +28,8 @@ struct PegChooser: View {
     }
 }
 
-//#Preview {
-//    PegChooser()
-//}
+#Preview {
+    PegChooser(choices: [Color.red, .blue, .yellow, .orange, .green].map(\.hex)) { peg in
+        print("chose \(peg)")
+    }.padding()
+}

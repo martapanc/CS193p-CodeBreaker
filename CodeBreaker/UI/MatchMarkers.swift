@@ -36,12 +36,6 @@ struct MatchMarkers: View {
     }
 }
 
-enum Match {
-    case nomatch
-    case exact
-    case partial
-}
-
 #Preview {
     MatchMarkers(matches: [.exact, .partial, .nomatch, .nomatch])
 }
