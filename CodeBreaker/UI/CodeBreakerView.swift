@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct CodeBreakerView: View {
     // MARK: Data In
@@ -157,4 +158,5 @@ extension CodeBreaker {
     NavigationStack {
         CodeBreakerView(game: game)
     }
+    .modelContainer(for: CodeBreaker.self, inMemory: true)
 }

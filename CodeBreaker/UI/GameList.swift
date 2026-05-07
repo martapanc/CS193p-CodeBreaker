@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct GameList: View {
     // MARK: Data Shared with Me
@@ -79,7 +80,7 @@ struct GameList: View {
                 if let index = games.firstIndex(of: gameToEdit) {
                     games[index] = copyOfGameToEdit
                 } else {
-                    games.insert(gameToEdit, at: 0)
+                    games.insert(copyOfGameToEdit, at: 0)
                 }
             }
         }
@@ -118,5 +119,5 @@ struct GameList: View {
     NavigationStack {
             GameList(selection: $selection)
     }
-    
+    .modelContainer(for: CodeBreaker.self, inMemory: true)
 }

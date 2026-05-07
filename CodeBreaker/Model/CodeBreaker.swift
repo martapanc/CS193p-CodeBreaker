@@ -14,7 +14,7 @@ import SwiftData
     @Relationship(deleteRule: .cascade) var guess: Code = Code(kind: .guess)
     @Relationship(deleteRule: .cascade) var attempts: [Code] = []
     var pegChoices: [Peg] // Could be a Set<Peg>
-    @Transient var startTime: Date?
+    var startTime: Date?
     var endTime: Date?
     var elapsedTime: TimeInterval = 0
     

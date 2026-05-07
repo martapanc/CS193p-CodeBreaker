@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct GameChooser: View {    
     @State private var selection: CodeBreaker? = nil
@@ -30,4 +31,5 @@ struct GameChooser: View {
 
 #Preview {
     GameChooser()
+        .modelContainer(for: CodeBreaker.self, inMemory: true)
 }

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct GameEditor: View {
     // MARK: Data (Function) in
@@ -81,4 +82,5 @@ extension CodeBreaker {
             print("game name changed to \(game.name)")
             print("game pegs changed to \(game.pegChoices)")
     }
+    .modelContainer(for: CodeBreaker.self, inMemory: true)
 }

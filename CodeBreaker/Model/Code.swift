@@ -30,7 +30,7 @@ import SwiftData
         for index in pegs.indices {
             pegs[index] = pegChoices.randomElement() ?? Code.missingPeg
         }
-        print(self)
+        print(pegs.map { Color(hex: $0).description })
     }
     
     var isHidden: Bool {
