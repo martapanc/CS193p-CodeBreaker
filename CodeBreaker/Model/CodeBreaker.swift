@@ -18,9 +18,10 @@ import SwiftData
     var endTime: Date?
     var elapsedTime: TimeInterval = 0
     var lastAttemptDate: Date? = Date.now
+    var isOver: Bool = false
     
     var attempts: [Code] {
-        get { _attempts.sorted { $0.timestamp < $1.timestamp }}
+        get { _attempts.sorted { $0.timestamp > $1.timestamp }}
         set { _attempts = newValue }
     }
     
@@ -28,6 +29,11 @@ import SwiftData
         self.name = name
         self.pegChoices = pegChoices
         masterCode.randomize(from: pegChoices)
+    }
+    
+    func updateElapsedTime() {
+        pauseTimer()
+        startTimer()
     }
     
     func startTimer() {
@@ -44,10 +50,6 @@ import SwiftData
         startTime = nil
     }
     
-    var isOver: Bool {
-        attempts.first?.pegs == masterCode.pegs // if last is nil, everything becomes nil
-    }
-    
     func restart() {
         masterCode.kind = .master(isHidden: true)
         masterCode.randomize(from: pegChoices)
@@ -56,6 +58,7 @@ import SwiftData
         startTime = .now
         endTime = nil
         elapsedTime = 0
+        isOver = false
     }
     
     func attemptGuess() {
@@ -69,7 +72,8 @@ import SwiftData
         lastAttemptDate = .now
         guess.reset()
         
-        if isOver {
+        if attempts.first?.pegs == masterCode.pegs {
+            isOver = true
             masterCode.kind = .master(isHidden: false)
             endTime = .now
             pauseTimer()
