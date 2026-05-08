@@ -10,17 +10,17 @@ import SwiftUI
 import SwiftData
 
 @Model class Code {
-    var _kind: String = Kind.unknown.stringValue
+    var _kind: String = Kind.unknown.description
     var pegs: [Peg]
 
     var kind: Kind {
-        get { Kind(stringValue: _kind) }
-        set { _kind = newValue.stringValue }
+        get { Kind(description: _kind) }
+        set { _kind = newValue.description }
     }
     
     init(kind: Kind, pegs: [Peg] = Array(repeating: Code.missingPeg, count: 4)) {
         self.pegs = pegs
-        self._kind = kind.stringValue
+        self._kind = kind.description
         self.kind = kind
     }
     

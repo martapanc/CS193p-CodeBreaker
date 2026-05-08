@@ -14,7 +14,7 @@ import SwiftData
     @Relationship(deleteRule: .cascade) var guess: Code = Code(kind: .guess)
     @Relationship(deleteRule: .cascade) var attempts: [Code] = []
     var pegChoices: [Peg] // Could be a Set<Peg>
-    var startTime: Date?
+    @Transient var startTime: Date?
     var endTime: Date?
     var elapsedTime: TimeInterval = 0
     
@@ -27,6 +27,7 @@ import SwiftData
     func startTimer() {
         if startTime == nil, !isOver {
             startTime = .now
+            elapsedTime += 0.0001
         }
     }
     

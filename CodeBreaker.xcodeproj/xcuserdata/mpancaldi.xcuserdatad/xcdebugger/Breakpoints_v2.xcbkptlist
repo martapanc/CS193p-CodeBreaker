@@ -14,8 +14,8 @@
             filePath = "CodeBreaker/Model/CodeBreaker.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "88"
-            endingLineNumber = "88"
+            startingLineNumber = "89"
+            endingLineNumber = "89"
             landmarkName = "Peg"
             landmarkType = "16">
          </BreakpointContent>
@@ -30,8 +30,8 @@
             filePath = "CodeBreaker/Model/CodeBreaker.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "89"
-            endingLineNumber = "89">
+            startingLineNumber = "90"
+            endingLineNumber = "90">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

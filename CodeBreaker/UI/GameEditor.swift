@@ -76,11 +76,10 @@ extension CodeBreaker {
     }
 }
 
-#Preview {
+#Preview(traits: .swiftData) {
     @Previewable var game = CodeBreaker(name: "Preview", pegChoices: [.orange, .purple, .pink])
     GameEditor(game: game) {
             print("game name changed to \(game.name)")
             print("game pegs changed to \(game.pegChoices)")
     }
-    .modelContainer(for: CodeBreaker.self, inMemory: true)
 }

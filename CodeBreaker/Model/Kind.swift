@@ -13,7 +13,7 @@ enum Kind: Equatable {
     case attempt([Match])
     case unknown
 
-    var stringValue: String {
+    var description: String {
         switch self {
         case .master(let isHidden):
             return "master:\(isHidden)"
@@ -27,8 +27,8 @@ enum Kind: Equatable {
         }
     }
 
-    init(stringValue: String) {
-        let parts = stringValue.split(separator: ":", maxSplits: 1).map(String.init)
+    init(description: String) {
+        let parts = description.split(separator: ":", maxSplits: 1).map(String.init)
         switch parts.first {
         case "master":
             self = .master(isHidden: parts.last == "true")
