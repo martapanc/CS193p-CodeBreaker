@@ -19,11 +19,18 @@ struct GameList: View {
     // MARK: Data Owned by Me
     @State private var gameToEdit: CodeBreaker? = nil
     
-    init(sortBy: SortOption = .name, selection: Binding<CodeBreaker?>) {
+    init(sortBy: SortOption = .name, nameContains search: String = "", selection: Binding<CodeBreaker?>) {
         _selection = selection
+        
+        let lowercaseSearch = search.lowercased()
+        let capitalizedSearch = search.capitalized
+        let predicate = #Predicate<CodeBreaker> { game in
+            search.isEmpty || game.name.contains(lowercaseSearch) || game.name.contains(capitalizedSearch)
+        }
+        
         switch sortBy {
-        case .name: _games = Query(sort: \CodeBreaker.name)
-        case .recent: _games = Query(sort: \CodeBreaker.lastAttemptDate, order: .reverse)
+        case .name: _games = Query(filter: predicate, sort: \CodeBreaker.name)
+        case .recent: _games = Query(filter: predicate, sort: \CodeBreaker.lastAttemptDate, order: .reverse)
         }
     }
     
