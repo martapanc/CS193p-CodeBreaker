@@ -22,7 +22,6 @@ struct PegView: View {
             .contentShape(pegShape)
             .aspectRatio(1, contentMode: .fit)
             .foregroundStyle(isEmpty ? Color.primary.opacity(0.08) : Color(hex: peg))
-            .overlay(pegShape.strokeBorder(Color.primary.opacity(isEmpty ? 0.15 : 0.25), lineWidth: 1.5))
     }
 }
 
