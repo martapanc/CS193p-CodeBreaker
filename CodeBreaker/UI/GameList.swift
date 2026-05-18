@@ -50,11 +50,18 @@ struct GameList: View {
         }
     }
     
+    var summarySize: GameSummary.Size {
+        staticSummarySize * dynamicSummarySizeMagnification
+    }
+    
+    @State private var staticSummarySize: GameSummary.Size = .large
+    @State private var dynamicSummarySizeMagnification: CGFloat = 1.0
+    
     var body: some View {
         List(selection: $selection) {
             ForEach(games) { game in
                 NavigationLink(value: game) {
-                    GameSummary(game: game)
+                    GameSummary(game: game, size: summarySize)
                 }
                 .contextMenu {
                     editButton(for: game) // editing a game
@@ -71,6 +78,7 @@ struct GameList: View {
                 }
             }
         }
+        .gesture(summarySizeMagnifier)
         .onChange(of: games) {
             if let selection, !games.contains(selection) {
                 self.selection = nil
@@ -87,6 +95,17 @@ struct GameList: View {
             EditButton() // Editing the List of games
         }
         .onAppear { addSampleGames() }
+    }
+    
+    var summarySizeMagnifier: some Gesture {
+        MagnifyGesture()
+            .onChanged { value in
+                dynamicSummarySizeMagnification = value.magnification
+            }
+            .onEnded { value in
+                staticSummarySize = staticSummarySize * value.magnification
+                dynamicSummarySizeMagnification = 1.0
+            }
     }
 
     var addButton: some View {
@@ -141,6 +160,18 @@ struct GameList: View {
             modelContext.insert(CodeBreaker(name: "Mastermind", pegChoices: [.red, .blue, .green, .yellow, .black]))
             modelContext.insert(CodeBreaker(name: "Earth Tones", pegChoices: [.yellow, .orange, .brown, .black,]))
             modelContext.insert(CodeBreaker(name: "Undersea", pegChoices: [.indigo, .blue, .cyan]))
+        }
+    }
+}
+
+extension GameSummary.Size {
+    static func * (lhs: Self, rhs: CGFloat) -> Self {
+        switch rhs {
+            case 2.0...: return lhs.larger.larger
+            case 1.5...: return lhs.larger
+            case ...0.5: return lhs.smaller
+            case ...0.35: return lhs.smaller.smaller
+            default: return lhs
         }
     }
 }
