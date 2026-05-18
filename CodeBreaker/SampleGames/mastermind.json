@@ -1,0 +1,18 @@
+{
+  "name": "Mastermind",
+  "masterCode": {
+    "kind": "master:true",
+    "pegs": ["#34C759", "#FF383C", "#34C759", "#000000"],
+    "timestamp": 799940298.591558
+  },
+  "guess": {
+    "kind": "guess",
+    "pegs": ["", "", "", ""],
+    "timestamp": 799940298.591558
+  },
+  "attempts": [],
+  "pegChoices": ["#FF383C", "#0088FF", "#34C759", "#FFCC00", "#000000"],
+  "elapsedTime": 0.0002,
+  "lastAttemptDate": 799940298.592007,
+  "isOver": false
+}

@@ -30,6 +30,22 @@ import SwiftData
         self.pegChoices = pegChoices
         masterCode.randomize(from: pegChoices)
     }
+
+    required convenience init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let name = try container.decode(String.self, forKey: .name)
+        let pegChoices = try container.decode([Peg].self, forKey: .pegChoices)
+
+        self.init(name: name, pegChoices: pegChoices)
+
+        self.masterCode = try container.decode(Code.self, forKey: .masterCode)
+        self.guess = try container.decode(Code.self, forKey: .guess)
+        self._attempts = try container.decode([Code].self, forKey: .attempts)
+        self.endTime = try container.decodeIfPresent(Date.self, forKey: .endTime)
+        self.elapsedTime = try container.decode(TimeInterval.self, forKey: .elapsedTime)
+        self.lastAttemptDate = try container.decodeIfPresent(Date.self, forKey: .lastAttemptDate)
+        self.isOver = try container.decode(Bool.self, forKey: .isOver)
+    }
     
     func updateElapsedTime() {
         pauseTimer()

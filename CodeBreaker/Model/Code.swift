@@ -24,7 +24,17 @@ import SwiftData
         self._kind = kind.description
         self.kind = kind
     }
-    
+
+    required convenience init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let kindDescription = try container.decode(String.self, forKey: .kind)
+        let pegs = try container.decode([Peg].self, forKey: .pegs)
+        let timestamp = try container.decodeIfPresent(Date.self, forKey: .timestamp) ?? .now
+
+        self.init(kind: Kind(description: kindDescription), pegs: pegs)
+        self.timestamp = timestamp
+    }
+
     static let missingPeg: Peg = ""
 
     func randomize(from pegChoices: [Peg]) {

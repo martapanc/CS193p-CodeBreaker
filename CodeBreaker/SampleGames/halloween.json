@@ -1,0 +1,33 @@
+{
+  "guess": {
+    "pegs": [
+      "",
+      "",
+      "",
+      ""
+    ],
+    "kind": "guess",
+    "timestamp": 800808445.837387
+  },
+  "attempts": [],
+  "isOver": false,
+  "elapsedTime": 0.0001,
+  "name": "Halloween",
+  "pegChoices": [
+    "#FB9900",
+    "#FDC700",
+    "#A96800",
+    "#000000"
+  ],
+  "masterCode": {
+    "pegs": [
+      "#FDC700",
+      "#000000",
+      "#FF6A00",
+      "#FF6A00"
+    ],
+    "kind": "master:true",
+    "timestamp": 800808445.837383
+  },
+  "lastAttemptDate": 800808445.83739
+}
